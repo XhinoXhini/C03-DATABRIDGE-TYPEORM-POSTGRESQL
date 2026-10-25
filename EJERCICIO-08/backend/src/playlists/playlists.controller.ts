@@ -1,0 +1,20 @@
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Cancion } from './cancion.entity';
+import { CreateCancionDto } from './create-cancion.dto';
+import { Playlist } from './playlist.entity';
+import { PlaylistsService } from './playlists.service';
+
+@Controller('playlists')
+export class PlaylistsController {
+  constructor(private readonly service: PlaylistsService) {}
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<Playlist> {
+    return this.service.findOne(id);
+  }
+
+  @Post('canciones')
+  addCancion(@Body() dto: CreateCancionDto): Promise<Cancion> {
+    return this.service.addCancion(dto);
+  }
+}
